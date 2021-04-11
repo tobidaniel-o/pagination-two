@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+// To install the Pagination module on React, type in the console: npm install react-paginate
+// The library https://www.npmjs.com/package/react-paginate
+
+import "./App.css";
+import React, { useState } from "react";
+import JsonData from "./MOCK_DATA.json";
+import ReactPaginate from "react-paginate";
 
 function App() {
+  const [users, setUsers] = useState(JsonData.slice(0, 50));
+  const [pageNumber, setPageNumber] = useState(0);
+
+  const usersPerPage = 10;
+
+  const pagesVisited = pageNumber * usersPerPage;
+
+  const displayUsers = users
+    .slice(pagesVisited, pagesVisited + usersPerPage)
+    .map((user) => {
+      return (
+        <div className="user">
+          <h3>{user.first_name}</h3>
+          <h3>{user.last_name}</h3>
+          <h3>{user.email}</h3>
+        </div>
+      );
+    });
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {displayUsers}
+      <ReactPaginate />
     </div>
   );
 }
